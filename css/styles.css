@@ -13,6 +13,8 @@
 
   --main-font: 'Roboto', sans-serif;
   --logo-font: 'Raleway', sans-serif;
+
+  --primary-animate: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /**
@@ -51,6 +53,19 @@ body {
   font-size: 14px;
   font-family: var(--main-font);
   letter-spacing: 0.03em;
+}
+
+.visually-hidden {
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  margin: -1px;
 }
 
 .list {
@@ -554,10 +569,6 @@ body {
   padding: 63px 24px;
   opacity: 0;
 
-  /* transition-property: opacity;
-  transition-duration: 250ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); */
-
   transform: translateY(100%);
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -605,6 +616,75 @@ body {
   margin-bottom: 20px;
 }
 
+.follow-form {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.follow-title {
+  color: var(--primary-white-color);
+  line-height: calc(16 / 14);
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.follow-label {
+  font-size: 16px;
+  line-height: calc(s20 / 16);
+  color: rgba(255, 255, 255, 0.6);
+
+  position: absolute;
+  left: 16px;
+  top: 15px;
+
+  opacity: 1;
+
+  transition: opacity var(--primary-animate);
+}
+
+.follow-field {
+  width: 358px;
+  height: 50px;
+  outline: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15));
+  border-radius: 4px;
+  background: transparent;
+  padding-left: 16px;
+  padding-right: 16px;
+  color: var(--primary-white-color);
+  margin-right: 12px;
+}
+
+.follow-field:focus + .follow-label,
+.follow-field:not(:placeholder-shown) + .follow-label {
+  opacity: 0;
+}
+
+.follow-btn {
+  color: var(--primary-white-color);
+  background-color: var(--acсent-color);
+  font-size: 16px;
+  line-height: calc(30 / 16);
+  letter-spacing: 0.06em;
+  font-weight: 700;
+
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  height: 50px;
+  width: 200px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.follow-icon {
+  fill: var(--primary-white-color);
+}
+
 /**
   |============================
   | MODAL WINDOW
@@ -625,15 +705,16 @@ body {
 .backdrop.is-hidden {
   opacity: 0;
   pointer-events: none;
+  visibility: hidden;
 }
 
 .backdrop.is-hidden .modal {
-  transform: translate(-50%, -50%) rotate(180deg);
+  transform: translate(-50%, -50%) rotate(360deg);
 }
 
 .modal {
   width: 528px;
-  height: 581px;
+  min-height: 581px;
   background-color: var(--primary-white-color);
   position: absolute;
   top: 50%;
@@ -645,9 +726,11 @@ body {
 
   transform: translate(-50%, -50%) rotate(0deg);
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  padding: 40px;
 }
 
-.modal-btn {
+.close-btn {
   background-color: transparent;
   position: absolute;
   right: 8px;
@@ -659,57 +742,164 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition: fill var(--primary-animate);
 }
 
-.form-info {
-  padding: 40px;
+.close-btn:hover,
+.close-btn:focus,
+.close-btn:active {
+  fill: var(--acсent-color);
 }
 
-.form-title {
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1.15;
-  text-align: center;
-  color: var(--dark-text-color);
+.order-title {
+  display: block;
   margin-bottom: 12px;
+  color: var(--dark-text-color);
+  font-size: 20px;
+  line-height: calc(23 / 20);
+  text-align: center;
 }
 
-.form-field {
+.connect-group {
+  margin-bottom: 20px;
+}
+
+.connect-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+
+.connect-wrap:not(:last-child) {
   margin-bottom: 10px;
 }
 
-.form-field label {
+.connect-label {
   font-size: 12px;
-  line-height: 1.167;
+  line-height: calc(14 / 12);
   letter-spacing: 0.01em;
+  color: var(--grey-text-color);
 }
 
-.form-field input {
-  padding: 11px 12px;
+.connect-field {
+  font-size: 14px;
+  line-height: calc(16 / 14);
+  padding: 12px 42px;
+
   border: 1px solid rgba(33, 33, 33, 0.2);
   border-radius: 4px;
-  margin-top: 4px;
+
+  outline: transparent;
+  color: var(--grey-text-color);
+
+  transition: border-color var(--primary-animate);
 }
 
-.form-field textarea {
+.connect-field:focus {
+  border-color: var(--acсent-color);
+}
+
+.connect-icon {
+  position: absolute;
+
+  left: 12px;
+  bottom: 11px;
+  fill: var(--dark-text-color);
+
+  transition: fill var(--primary-animate);
+}
+
+.connect-field:focus + .connect-icon {
+  fill: var(--acсent-color);
+}
+
+.connect-comment {
+  height: 96px;
+  border: 1px solid rgba(33, 33, 33, 0.2);
+  border-radius: 4px;
   padding: 12px 16px;
-  border: 1px solid rgba(33, 33, 33, 0.2);
-  border-radius: 4px;
-  margin-top: 4px;
-}
-
-.form-field textarea::placeholder {
-  font-size: 12px;
-  line-height: 1.167;
-  letter-spacing: 0.01em;
-  color: rgba(117, 117, 117, 0.5);
-}
-
-.form-field .label {
-  display: flex;
-  flex-direction: column;
-}
-
-textarea {
   resize: none;
+  outline: transparent;
+  color: var(--grey-text-color);
+  font-size: 12px;
+  line-height: calc(14 / 12);
+
+  transition: border-color var(--primary-animate);
+}
+
+.connect-comment::placeholder {
+  color: rgba(117, 117, 117, 0.5);
+  font-size: 12px;
+  line-height: calc(14 / 12);
+}
+
+.connect-comment:focus {
+  border-color: var(--acсent-color);
+}
+
+.connect-agreement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  gap: 8px;
+}
+
+.connect-agreement-text {
+  font-size: 14px;
+  line-height: calc(24 / 14);
+  user-select: none;
+}
+
+.connect-policy {
+  text-decoration-line: underline;
+  color: var(--acсent-color);
+  text-underline-position: under;
+}
+
+.icon-uncheck {
+  transition: opacity var(--primary-animate);
+}
+
+.connect-checkbox:checked + .connect-agreement-icon > .icon-uncheck {
+  opacity: 0;
+}
+
+.icon-check {
+  opacity: 0;
+  fill: var(--acсent-color);
+  transition: opacity var(--primary-animate);
+}
+
+.connect-checkbox:checked + .connect-agreement-icon > .icon-check {
+  opacity: 1;
+}
+
+.connect-checkbox:focus + .connect-agreement-icon {
+  outline: 2px solid var(--acсent-color);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+.connect-btn {
+  padding: 10px 52px;
+  color: var(--primary-white-color);
+  background-color: var(--acсent-color);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: calc(30 / 16);
+  letter-spacing: 0.06em;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  transition: background-color var(--primary-animate);
+}
+
+.connect-btn:hover,
+.connect-btn:focus,
+.connect-btn:active {
+  background-color: #188ce8;
 }
